@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tu Página Web</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header
+>        <div class="contenedor">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="Logo">
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Productos</a></li>
+                    <li><a href="#">Servicios</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Resto del contenido de la página -->
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>¡Bienvenido!</h2>
+            <form id="loginForm" action="login.php" method="POST">
+                <!-- Cambiado 'email' a 'correo' y 'password' a 'contrasena' -->
+                <label for="correo">Correo electrónico o número de teléfono:</label>
+                <input type="text" id="correo" name="correo">
+                
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena">
+                
+                <button type="submit">Iniciar sesión</button>
+                <a href="#">¿Olvidaste tu contraseña?</a>
+                <br><br>
+                
+                <button type="button" id="createAccount">Registrarse</button>
+            </form>
+            
+        </div>
+    </div>
+
+
+    <script>
+    // Obtener el modal
+    var modal = document.getElementById("myModal");
+
+    // Obtener el botón que abre el modal
+    var btn = document.querySelector("nav ul li a");
+
+    // Obtener el elemento <span> que cierra el modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // Cuando el usuario hace clic en el botón, se abre el modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // Cuando el usuario hace clic en <span> (x), se cierra el modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Cuando el usuario hace clic en cualquier parte fuera del modal, se cierra el modal
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+     // Cambiado la acción del formulario para registrar
+    document.getElementById('createAccount').addEventListener('click', function() {
+        var form = document.getElementById('loginForm');
+        form.action = 'registro.php';
+        form.method = 'POST'; // Asegurarse de que el formulario envíe datos POST
+        form.submit();
+    });
+</script>
+
+
+</body>
+</html>
+
