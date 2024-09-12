@@ -3,8 +3,11 @@
 include 'conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Obtener datos del formulario
+    $nombreCompleto = $_POST['nombreCompleto'];
+    $usuario = $_POST['usuario'];
     $correo = $_POST['correo'];
-    $contrasena = $_POST['contrasena'];
+    $contrasenaRegistro = $_POST['contrasenaRegistro'];
 
     // Verificar si el correo electrónico ya está registrado
     $sql = "SELECT * FROM usuario WHERE correo = ?";
@@ -15,18 +18,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($result->num_rows > 0) {
         echo "El correo electrónico ya está registrado.";
-
     } else {
         // Cifrar la contraseña antes de guardarla
-        $hashed_contrasena = password_hash($contrasena, PASSWORD_BCRYPT);
+        $hashed_contrasena = password_hash($contrasenaRegistro, PASSWORD_BCRYPT);
 
         // Insertar los datos del usuario en la base de datos
-        $sql = "INSERT INTO usuario (correo, contrasena) VALUES (?, ?)";
+        $sql = "INSERT INTO usuario (correo, nom_comp, n_usuario, contrasena) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $correo, $hashed_contrasena);
+        $stmt->bind_param("ssss", $correo, $nombreCompleto, $usuario, $hashed_contrasena);
 
         if ($stmt->execute()) {
-            echo "Registro exitoso. Ahora puedes iniciar sesión.";
+           
+
+            echo "<script>
+                alert('Registro exitoso!');
+                window.location='index.html';
+                </script>";
         } else {
             echo "Error: " . $conn->error;
         }

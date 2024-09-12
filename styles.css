@@ -7,12 +7,12 @@ body {
 /* Estilos del header */
 header {
     background-color: #1c3e15; /* Color verde */
-    padding: 10px 0;
+    padding: 15px 0;
 }
 
 .contenedor {
-    width: 90%;
-    max-width: 1200px;
+    width: 120%;
+    max-width: 1500px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -44,7 +44,7 @@ nav ul li {
 nav ul li a {
     color: #FFFFFF; /* Color del texto */
     text-decoration: none;
-    font-size: 16px;
+    font-size: 20px;
     padding: 8px 12px;
     transition: background-color 0.3s;
 }
@@ -97,12 +97,14 @@ nav ul li a:hover {
         }
 
         form label {
-            margin: 10px 0 5px;
-            font-weight: bold;
+            margin: 20px 0 5px;
+            font-weight: bold;s
         }
 
         form input[type="text"],
-        form input[type="password"] {
+        form input[type="password"],
+        form input[type="correo"] 
+          {
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;

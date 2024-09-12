@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <title>Tu Página Web</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
     <!-- Header -->
-    <header
->        <div class="contenedor">
+    <header>        
+        <div class="contenedor">
             <a href="index.html" class="logo">
                 <img src="logo.png" alt="Logo">
             </a>
             <nav>
                 <ul>
-                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#" id="loginBtn">Inicio</a></li>
                     <li><a href="#">Productos</a></li>
                     <li><a href="#">Servicios</a></li>
                     <li><a href="#">Contacto</a></li>
@@ -24,16 +29,17 @@
         </div>
     </header>
 
-    <!-- Resto del contenido de la página -->
-
     <!-- Modal -->
-    <div id="myModal" class="modal">
+    <div id="loginModal" class="modal">
         <div class="modal-content">
+
             <span class="close">&times;</span>
-            <h2>¡Bienvenido!</h2>
+            
+
+            <!-- Formulario de inicio de sesión -->
             <form id="loginForm" action="login.php" method="POST">
-                <!-- Cambiado 'email' a 'correo' y 'password' a 'contrasena' -->
-                <label for="correo">Correo electrónico o número de teléfono:</label>
+                <h2>¡Bienvenido!</h2>
+                <label for="correo">Correo electrónico</label>
                 <input type="text" id="correo" name="correo">
                 
                 <label for="contrasena">Contraseña:</label>
@@ -45,47 +51,73 @@
                 
                 <button type="button" id="createAccount">Registrarse</button>
             </form>
+
+            <!-- Formulario de registro (oculto por defecto) -->
+            <form id="registerForm" action="registro.php" method="POST" class="hidden">
+                <h2>Registrate</h2>
+                <label for="nombreCompleto">Nombre completo:</label>
+                <input type="text" id="nombreCompleto" name="nombreCompleto" required>
+
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="usuario" required>
+
+               <label for="correo">Correo electrónico:</label>
+                <input type="text" id="correo" name="correo">
+
+                <label for="contrasenaRegistro">Contraseña:</label>
+                <input type="password" id="contrasenaRegistro" name="contrasenaRegistro" required>
+
+                <button type="submit">Registrar</button>
+                <button type="button" id="backToLogin">Volver a iniciar sesión</button>
+            </form>
             
         </div>
     </div>
 
-
     <script>
-    // Obtener el modal
-    var modal = document.getElementById("myModal");
+        var loginModal = document.getElementById("loginModal");
+var loginBtn = document.getElementById("loginBtn");
+var span = document.getElementsByClassName("close")[0];
 
-    // Obtener el botón que abre el modal
-    var btn = document.querySelector("nav ul li a");
+// Formularios
+var loginForm = document.getElementById("loginForm");
+var registerForm = document.getElementById("registerForm");
+var modalTitle = document.querySelector('.modal-content h2'); // Selecciona el título del modal
 
-    // Obtener el elemento <span> que cierra el modal
-    var span = document.getElementsByClassName("close")[0];
+loginBtn.onclick = function() {
+    loginModal.style.display = "block";
+    modalTitle.textContent = "¡Bienvenido!"; // Cambia el texto del título a '¡Bienvenido!'
+}
 
-    // Cuando el usuario hace clic en el botón, se abre el modal
-    btn.onclick = function() {
-        modal.style.display = "block";
+span.onclick = function() {
+    loginModal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == loginModal) {
+        loginModal.style.display = "none";
     }
+}
 
-    // Cuando el usuario hace clic en <span> (x), se cierra el modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
+// Mostrar el formulario de registro
+var registerBtn = document.getElementById("createAccount");
+registerBtn.onclick = function() {
+    loginForm.classList.add("hidden");
+    registerForm.classList.remove("hidden");
+    modalTitle.textContent = "Registrarse"; // Cambia el texto del título a 'Registrarse'
+}
 
-    // Cuando el usuario hace clic en cualquier parte fuera del modal, se cierra el modal
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-     // Cambiado la acción del formulario para registrar
-    document.getElementById('createAccount').addEventListener('click', function() {
-        var form = document.getElementById('loginForm');
-        form.action = 'registro.php';
-        form.method = 'POST'; // Asegurarse de que el formulario envíe datos POST
-        form.submit();
-    });
-</script>
+// Volver al formulario de inicio de sesión
+var backToLogin = document.getElementById("backToLogin");
+backToLogin.onclick = function() {
+    registerForm.classList.add("hidden");
+    loginForm.classList.remove("hidden");
+    modalTitle.textContent = "¡Bienvenido!"; // Cambia el texto del título a '¡Bienvenido!' al volver
+}
 
 
+    </script>
+
+  
 </body>
 </html>
-
