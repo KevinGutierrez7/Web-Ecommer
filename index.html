@@ -34,7 +34,6 @@
         <div class="modal-content">
 
             <span class="close">&times;</span>
-            
 
             <!-- Formulario de inicio de sesión -->
             <form id="loginForm" action="login.php" method="POST">
@@ -66,58 +65,96 @@
 
                 <label for="contrasenaRegistro">Contraseña:</label>
                 <input type="password" id="contrasenaRegistro" name="contrasenaRegistro" required>
+               
 
-                <button type="submit">Registrar</button>
+                <label for="confirmarContrasena">Confirmar contraseña:</label>
+                <input type="password" id="confirmarContrasena" name="confirmarContrasena" required>
+
+
+                <button type="button" id="submitRegistro">Registrar</button>
                 <button type="button" id="backToLogin">Volver a iniciar sesión</button>
             </form>
             
         </div>
     </div>
 
+    <!-- Modal de verificación (independiente y oculto por defecto) -->
+    <div id="verifyModal" class="modal hidden" >
+        <div class="modal-content">
+             <h2>Introduce tu código de verificación:</h2>
+    <form action="verificacion.php" method="POST">
+        <label for="codigo">Código de verificación:</label>
+        <input type="text" id="codigo" name="codigo_verificacion" required>
+        <br><br>
+        <button type="submit">Verificar</button>
+    </form>
+        </div>
+    </div>
+
     <script>
         var loginModal = document.getElementById("loginModal");
-var loginBtn = document.getElementById("loginBtn");
-var span = document.getElementsByClassName("close")[0];
+        var loginBtn = document.getElementById("loginBtn");
+        var span = document.getElementsByClassName("close")[0];
 
-// Formularios
-var loginForm = document.getElementById("loginForm");
-var registerForm = document.getElementById("registerForm");
-var modalTitle = document.querySelector('.modal-content h2'); // Selecciona el título del modal
+        // Formularios
+        var loginForm = document.getElementById("loginForm");
+        var registerForm = document.getElementById("registerForm");
+        var modalTitle = document.querySelector('.modal-content h2'); // Selecciona el título del modal
 
-loginBtn.onclick = function() {
-    loginModal.style.display = "block";
-    modalTitle.textContent = "¡Bienvenido!"; // Cambia el texto del título a '¡Bienvenido!'
-}
+        loginBtn.onclick = function() {
+            loginModal.style.display = "block";
+            modalTitle.textContent = "¡Bienvenido!"; // Cambia el texto del título a '¡Bienvenido!'
+        }
 
-span.onclick = function() {
-    loginModal.style.display = "none";
-}
+        span.onclick = function() {
+            loginModal.style.display = "none";
+        }
 
-window.onclick = function(event) {
-    if (event.target == loginModal) {
-        loginModal.style.display = "none";
-    }
-}
+        window.onclick = function(event) {
+            if (event.target == loginModal) {
+                loginModal.style.display = "none";
+            }
+        }
 
-// Mostrar el formulario de registro
-var registerBtn = document.getElementById("createAccount");
-registerBtn.onclick = function() {
-    loginForm.classList.add("hidden");
-    registerForm.classList.remove("hidden");
-    modalTitle.textContent = "Registrarse"; // Cambia el texto del título a 'Registrarse'
-}
+        // Mostrar el formulario de registro
+        var registerBtn = document.getElementById("createAccount");
+        registerBtn.onclick = function() {
+            loginForm.classList.add("hidden");
+            registerForm.classList.remove("hidden");
+            modalTitle.textContent = "Registrarse"; // Cambia el texto del título a 'Registrarse'
+        }
 
-// Volver al formulario de inicio de sesión
-var backToLogin = document.getElementById("backToLogin");
-backToLogin.onclick = function() {
-    registerForm.classList.add("hidden");
-    loginForm.classList.remove("hidden");
-    modalTitle.textContent = "¡Bienvenido!"; // Cambia el texto del título a '¡Bienvenido!' al volver
-}
+        // Volver al formulario de inicio de sesión
+        var backToLogin = document.getElementById("backToLogin");
+        backToLogin.onclick = function() {
+            registerForm.classList.add("hidden");
+            loginForm.classList.remove("hidden");
+            modalTitle.textContent = "¡Bienvenido!"; // Cambia el texto del título a '¡Bienvenido!' al volver
+        }
 
+        // Verifica la contraseña y abre la ventana de verificación
+        document.getElementById('submitRegistro').onclick = function(event) {
+            event.preventDefault();
 
+            var contrasena = document.getElementById("contrasenaRegistro").value;
+            var confirmarContrasena = document.getElementById("confirmarContrasena").value;
+
+            var contrasenaSegura = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (!contrasenaSegura.test(contrasena)) {
+                alert('La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un símbolo.');
+            } else if (contrasena !== confirmarContrasena) {
+                alert('Las contraseñas no coinciden.');
+            } else {
+                // Aquí se envía el formulario de registro y luego se abre el modal de verificación
+                document.getElementById("registerForm").submit();
+                loginModal.style.display = "none";  // Cierra el modal de registro
+                document.getElementById("verifyModal").style.display = "block"; // Abre el modal de verificación
+            }
+        };
+
+        
     </script>
-
   
 </body>
 </html>
